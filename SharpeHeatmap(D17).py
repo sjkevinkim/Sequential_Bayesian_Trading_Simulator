@@ -175,7 +175,7 @@ heatmap_055 = df_055.pivot(
     columns = "beta",
     values = "sharpe-like"
     )
-
+ 
 
 import seaborn as sns
 import matplotlib.pyplot as plt
