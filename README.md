@@ -44,7 +44,7 @@ Stopping rules must balance:
 ---
 
 ## Visualisations
-(Add your plots here later)
+PLOTS of Heatmaps and Day 18 Visualisation
 
 - Sharpe heatmaps (Day 17)
 - Detection time vs edge (Day 18)
