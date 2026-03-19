@@ -1,53 +1,130 @@
 # Sequential Bayesian Trading Strategy Simulator
 
 ## Overview
-This project investigates how traders can evaluate and manage trading strategies with uncertain edge using Bayesian learning and sequential decision-making.
 
-The simulation models:
-- Bayesian belief updating
-- Sequential stopping rules
-- Edge detection thresholds
-- Monte Carlo simulation of trading outcomes
+This project investigates how a trader should learn, size positions, and decide when to stop trading under uncertainty.
 
-## Progress
+We simulate a simple trading environment (biased coin) and explore:
+	•	Bayesian belief updating of edge
+	•	Sequential stopping rules (Type I vs Type II error tradeoff)
+	•	Position sizing strategies (Fixed vs Kelly-style sizing)
 
-1. Analysis of Sharpe Heatmap of Fixed Sizing Strategy under Varying Parameters
-2. Investigation of Detection Times and Rates of Fixed Sizing Strategy
-3. Comparison of Sharpe under Fractional Kelly Sizing and Fixed Sizing Strategies
+The goal is to understand how edge strength, confidence thresholds, and sizing rules interact to impact:
+	•	Profitability
+	•	Risk (drawdowns)
+	•	Speed of detecting a true edge
 
----
-
-## Key Questions
-- How quickly can we detect a profitable trading strategy?
-- How does edge strength affect detection speed?
-- What is the trade-off between early stopping and long-run profitability?
 
 ---
 
 ## Methodology
-- Simulated coin-flip trading environment with unknown edge
-- Bayesian updating over discrete probability hypotheses
-- Sequential decision rules:
-  - Stop if high probability of bad edge
-  - Trade with variable size depending on confidence (Fixed vs Kelly)
-- Parameter sweeps over stopping and detection thresholds
+
+### 1. Bayesian Learning Framework
+
+We assume the true edge p is unknown and maintain a discrete prior over possible values:
+
+ps = [0.5, 0.55, 0.60, 0.65]
+prior = [0.4, 0.2, 0.2, 0.2]
+
+Beliefs are updated after each trade using likelihood weighting:
+	•	Heads → weight by p
+	•	Tails → weight by 1 - p
+
+### 2. Trading Decisions
+
+Stopping Rule (Sequential Testing)
+We stop trading if:
+	•	Probability edge is “bad” exceeds threshold "alpha"
+
+This captures:
+	•	Type I error → stopping too early (missing real edge)
+	•	Type II error → continuing in a bad strategy
+
+Detection Rule
+We detect a “good edge” when:
+	•	Probability p > 0.5 exceeds threshold "beta"
+
+This measures speed of learning / signal detection
+
+
+### 3. Position Sizing Strategies
+
+Fixed Sizing
+	•	Discrete actions: No trade / Half size / Full size
+	•	Based on posterior mean \hat{p}
+
+Fractional Kelly-Style Sizing
+	•	f = \max(0, 2\hat{p} - 1)
+	•	Scales position size continuously with confidence
+	•	More aggressive when edge is strong
+	•	More conservative when uncertain
+
+
+### 4. Simulation Setup
+
+For each configuration:
+	•	100 trades per run
+	•	300–1000 Monte Carlo simulations
+  •	Parameter sweep over:
+	  •	\alpha \in \{0.6, 0.7, 0.8, 0.9\}
+	  •	\beta \in \{0.6, 0.7, 0.8, 0.9\}
+	  •	p \in \{0.50, 0.52, 0.55, 0.58, 0.60, 0.65\}
+
+Metrics tracked:
+	•	Mean wealth
+	•	Sharpe-like ratio
+	•	Maximum drawdown
+	•	Detection time
+	•	Detection rate
+
 
 ---
 
 ## Results
 
-### 1. Weak edges require large sample sizes
-Weak edges are difficult to distinguish from noise and require many trades before confidence emerges.
+### Parameter Sensitivity (D1)
+Heatmaps show how performance varies across stopping thresholds:
 
-### 2. Stronger edges improve detection and Sharpe
-Higher edge leads to faster detection and better risk-adjusted performance.
+Insight:
+	•	Conservative stopping (high \alpha) improves survivability
+	•	Weak edges require looser stopping to avoid premature exit
 
-### 3. Trade-off between Type I and Type II errors
-Stopping rules must balance:
-- Exiting profitable strategies too early
-- Staying too long in unprofitable ones
+### Detection Speed vs Edge (D2)
+Insights:
+	•	Stronger edges → faster detection
+	•	Weak edges → high noise → slow learning
+	•	Detection reliability improves sharply as edge increases
+  
+### Kelly vs Fixed Sizing (D3)
+We directly compare strategies:
+Sharpe Difference = Kelly - Fixed
+
+Insights:
+	•	Kelly outperforms when:
+	•	Edge is strong
+	•	Confidence builds quickly
+	•	Fixed sizing is more robust when:
+	•	Edge is weak
+	•	Early variance dominates
+
 
 ---
+
+## Key Insights
+
+	•	Weak edges are dominated by noise:
+    Require long horizons and conservative stopping rules
+	•	Stronger edges improve both Sharpe and detection speed:
+    Allow more aggressive sizing and faster scaling
+	•	Stopping rules encode risk preferences
+	•	Low \alpha: risk missing good strategies
+	•	High \alpha: risk staying in bad ones
+	•	Kelly sizing adapts to confidence
+	•	Exploits strong edges efficiently
+	•	But increases sensitivity to estimation error
+	•	Trade-off:
+    Early survival vs long-term optimal growth
+
 
 ### 1. Sharpe Heatmap with Varying Threshold Parameters
 
