@@ -279,6 +279,7 @@ for p in true_ps:
     plt.xlabel("beta")
     plt.ylabel("alpha")
     plt.tight_layout()
+    plt.savefig(f"figures/kelly_fixed_sharpe_{p:.2f}.png")
     plt.show()
 
 
