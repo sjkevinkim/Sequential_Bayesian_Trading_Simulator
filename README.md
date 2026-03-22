@@ -145,16 +145,17 @@ Drawdown Difference = Kelly - Fixed
 
 
 ### Key Insights
-- Weak edges are dominated by noise
-    - Require longer horizons and conservative stopping rules
-- Stronger edges improve both Sharpe and detection speed
-    - Enable more aggressive trading
-- Kelly sizing adapts to confidence
-- Outperforms when edge is strong
-- Amplifies drawdowns when edge is weak
-- Trade-off between growth and robustness
-- Fixed sizing is more stable under uncertainty
-- Kelly maximises growth when signal is reliable
+- Kelly sizing improves Sharpe-like performance when the trading edge is sufficiently strong, as it scales position size proportionally to estimated edge and exploits high-confidence opportunities more efficiently
+
+- Under weak-edge regimes, Kelly sizing can underperform fixed sizing due to estimation error, where noise in early observations leads to overly aggressive position sizing
+
+- Kelly sizing generally results in larger drawdowns compared to fixed sizing, reflecting the trade-off between higher growth and increased volatility
+
+- Fixed sizing is more robust under uncertainty, as it limits exposure when confidence is low and reduces sensitivity to early variance
+
+- The performance advantage of Kelly increases with signal-to-noise ratio: as true edge increases, Kelly becomes more reliable and dominates fixed sizing in risk-adjusted returns
+
+- There exists a clear trade-off between growth and survivability: Kelly maximises long-term growth under correct estimates, while fixed sizing provides more stable outcomes under model uncertainty
 
 ---
 
