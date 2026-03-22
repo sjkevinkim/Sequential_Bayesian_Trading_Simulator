@@ -10,7 +10,7 @@ We simulate a simple trading environment (biased coin) and explore:
 	•	Position sizing strategies (Fixed vs Kelly-style sizing)
 
 The goal is to understand how edge strength, confidence thresholds, and sizing rules interact to impact:
-	•	Profitability
+	•	Profitability (Sharpe-like performance)
 	•	Risk (drawdowns)
 	•	Speed of detecting a true edge
 
@@ -23,12 +23,25 @@ The goal is to understand how edge strength, confidence thresholds, and sizing r
 
 We assume the true edge p is unknown and maintain a discrete prior over possible values:
 
+```python
 ps = [0.5, 0.55, 0.60, 0.65]
 prior = [0.4, 0.2, 0.2, 0.2]
+```
 
 Beliefs are updated after each trade using likelihood weighting:
 	•	Heads → weight by p
 	•	Tails → weight by 1 - p
+
+```python
+def update_belief(belief: list[float], outcome: str, ps: list[float]) -> list[float]:
+    new_weights = []
+    for w,p in zip(belief, ps):
+        if outcome ==  "H":
+            likelihood = p
+        else: likelihood = 1-p
+        new_weights.append(likelihood * w)
+    return normalise_weights(new_weights)
+```
 
 ### 2. Trading Decisions
 
@@ -131,32 +144,17 @@ Drawdown Difference = Kelly - Fixed
 ![Kelly - Fixed Drawdown](figures/kelly_fixed_drawdown_0.65.png)
 
 
-Insights:
-	•	Kelly outperforms when:
-	•	Edge is strong
-	•	Confidence builds quickly
-	•	Fixed sizing is more robust when:
-	•	Edge is weak
-	•	Early variance dominates
-
-
----
-
 ## Key Insights
-
-	•	Weak edges are dominated by noise:
-    		Require long horizons and conservative stopping rules
-	•	Stronger edges improve both Sharpe and detection speed:
-			Allow more aggressive sizing and faster scaling
-	•	Stopping rules encode risk preferences
-	•	Low alpha: risk missing good strategies
-	•	High alpha: risk staying in bad ones
+	•	Weak edges are dominated by noise
+		→ Require longer horizons and conservative stopping rules
+	•	Stronger edges improve both Sharpe and detection speed
+		→ Enable more aggressive trading
 	•	Kelly sizing adapts to confidence
-	•	Exploits strong edges efficiently
-	•	But increases sensitivity to estimation error
-	•	Trade-off:
-    	Early survival vs long-term optimal growth
-
+	•	Outperforms when edge is strong
+	•	Amplifies drawdowns when edge is weak
+	•	Trade-off between growth and robustness
+	•	Fixed sizing is more stable under uncertainty
+	•	Kelly maximises growth when signal is reliable
 
 ---
 
