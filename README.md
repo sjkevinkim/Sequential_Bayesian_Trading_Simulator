@@ -145,9 +145,9 @@ Insights:
 ## Key Insights
 
 	•	Weak edges are dominated by noise:
-    Require long horizons and conservative stopping rules
+    		Require long horizons and conservative stopping rules
 	•	Stronger edges improve both Sharpe and detection speed:
-    Allow more aggressive sizing and faster scaling
+			Allow more aggressive sizing and faster scaling
 	•	Stopping rules encode risk preferences
 	•	Low alpha: risk missing good strategies
 	•	High alpha: risk staying in bad ones
@@ -155,7 +155,7 @@ Insights:
 	•	Exploits strong edges efficiently
 	•	But increases sensitivity to estimation error
 	•	Trade-off:
-    Early survival vs long-term optimal growth
+    	Early survival vs long-term optimal growth
 
 
 ---
