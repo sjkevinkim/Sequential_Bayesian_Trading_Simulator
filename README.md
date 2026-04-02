@@ -41,6 +41,7 @@ The posterior mean (alpha/(alpha+beta)) provides an estimate of the underlying e
 
 For true_p = 0.8, edge is strong, hence the beta distribution quickly concentrates around the posterior mean.
 
+### Plot 1: Beta Evolution
 ![Beta Evolution](figures/beta_evolution.png)
 
 This is useful because trading decisions should depend not only on the estimated edge, but also on how certain the model is that the edge is favourable. I use the posterior distribution to calculate:
@@ -89,6 +90,7 @@ Because the Bayesian estimate uses all past observations, it is slow to adapt af
 
 As a result, the trader may continue sizing too aggressively even after the edge has disappeared (overconfidence)
 
+### Plot 2: True edge vs Posterior mean
 ![True edge vs posterior mean](figures/true_p_vs_posterior_mean_d2.png)
 
 This plot compares the true probability with the Bayesian posterior mean over time.
@@ -97,12 +99,14 @@ This plot compares the true probability with the Bayesian posterior mean over ti
 
 **This visualises the central problem of adaptation lag**
 
+### Plot 3: Wealth paths under regime change
 ![Wealth paths under regime change](figures/wealth_paths_under_regime_change_d2.png)
 
 This plot compares how fixed and Half-Kelly strategies perform under the same regime shift.
 - Fixed sizing grows more slowly but avoids extreme overexposure as betting size does not drastically change
 - Half-Kelly compounds rapidly in the favourable regime. But after the shift, Half-Kelly often experiences a sharp deterioration because it is still betting based on stale confidence
 
+### Plot 4: Half-Kelly bet fraction
 ![Half-Kelly bet fraction](figures/bet_size_d2.png)
 
 This plot shows how the Kelly position size evolves over time.
