@@ -4,7 +4,7 @@
 
 This project investigates how a trader should learn and size positions to manage risk under uncertainty, particularly in environments where the underlying edge may change over time.
 
-To study this in a controlled setting, I begin with a simple simulation framework based on repeated coin flips. Each flip represents a trade, where outcomes (“Heads” or “Tails”) correspond to profit and loss signals. The true probability of success is unknown and must be inferred from sequential observations.
+To study this in a controlled setting, I begin with a simulation framework based on repeated coin flips. Each flip represents a trade, where outcomes (“Heads” or “Tails”) correspond to profit and loss signals. The true probability of success is unknown and must be inferred from sequential observations.
 
 Using **Monte Carlo simulation**, I run many independent paths to evaluate strategy performance in terms of:
     - wealth growth
@@ -13,13 +13,9 @@ Using **Monte Carlo simulation**, I run many independent paths to evaluate strat
 
 We develop the project from a simple static idea into increasingly adaptive strategies.
 
-The project initially utilises a static fixed-fraction strategy, where sizing does not respond to outcomes.
+The project initially utilises a static fixed-fraction strategy, where sizing does not respond to outcomes and further introduce fractional Kelly sizing strategy. I extend the project by utilising a continuous Beta distribution over discrete belief priors, a more realistic model for updating beliefs after each observation. 
 
-Next, I introduce Bayesian sequential learning, with a discrete prior over possible probabilities, and later extending this to a continuous Beta distribution. This allows the model to update its belief about the underlying edge after each observation in a more realistic way.
-
-Building on this, I implement fractional Kelly position sizing, linking belief updates directly to capital allocation.
-
-To capture more realistic trading dynamics , I then introduce a regime change, where the true probability shifts from a strong positive edge to a no-edge environment. This creates a non-stationary setting in which strategies must balance responsiveness and stability.
+To capture more realistic trading dynamics , I introduce a regime change, where the true probability shifts from a strong positive edge to a no-edge environment. This creates a non-stationary setting in which strategies must balance responsiveness and stability.
 
 To address this, I develop:
     - Rolling-window estimator (fast but noisy)
@@ -30,86 +26,25 @@ Finally, I incorporate a regime detection mechanism, where divergence between mo
 
 ---
 
-## Static Strategies
-
-### Sharpe-like Heatmaps (D1)
-
-Heatmaps show how performance varies across stopping thresholds:
-
-| true_p = 0.50 | true_p = 0.55 |
-|--------------|--------------|
-| ![](figures/sharpe_heatmap_p_0.50.png) | ![](figures/sharpe_heatmap_p_0.55.png) |
-
-| true_p = 0.60 | true_p = 0.65 |
-|--------------|--------------|
-| ![](figures/sharpe_heatmap_p_0.60.png) | ![](figures/sharpe_heatmap_p_0.65.png) |
-
-
-Insight:
-- Conservative stopping (high alpha) improves survivability
-- Weak edges require looser stopping to avoid premature exit
-
-### Detection (D2)
-
-| Detection Time vs True Edge | Detection Rate vs True Edge |
-|-----------------------------|-----------------------------|
-| ![](figures/detection_time_vs_true_p.png) | ![](figures/detection_rate_vs_true_p.png)
-
-
-Insights:
-- Stronger edges → faster detection
-- Weak edges → high noise → slow learning
-- Detection reliability improves sharply as edge increases
-
-### Key Insights
-
----
-
-## Adaptive Estimations
-
-### Kelly (Fractional) vs Fixed Sizing (D3)
- 
-We directly compare strategies:
-Sharpe Difference = Kelly - Fixed
-Drawdown Difference = Kelly - Fixed
-
-### Sharpe Difference (Kelly - Fixed)
-
-| true_p = 0.50 | true_p = 0.55 |
-|--------------|--------------|
-| ![](figures/kelly_fixed_sharpe_0.50.png) | ![](figures/kelly_fixed_sharpe_0.55.png) |
-
-| true_p = 0.60 | true_p = 0.65 |
-|--------------|--------------|
-| ![](figures/kelly_fixed_sharpe_0.60.png) | ![](figures/kelly_fixed_sharpe_0.65.png) |
-
-### Drawdown Difference (Kelly - Fixed)
-
-| true_p = 0.50 | true_p = 0.55 |
-|--------------|--------------|
-| ![](figures/kelly_fixed_drawdown_0.50.png) | ![](figures/kelly_fixed_drawdown_0.55.png) |
-
-| true_p = 0.60 | true_p = 0.65 |
-|--------------|--------------|
-| ![](figures/kelly_fixed_drawdown_0.60.png) | ![](figures/kelly_fixed_drawdown_0.65.png) |
-
-- Fractional Kelly sizing (0.5× Kelly) improves Sharpe-like performance when the trading edge is sufficiently strong, as position size scales with posterior confidence and efficiently exploits high-probability opportunities
-
-- Under weak-edge regimes, fixed sizing can outperform in Sharpe-like terms, since fractional Kelly reduces exposure when beliefs are uncertain, limiting both gains and losses
-
-- Fractional Kelly produces **lower drawdowns than fixed sizing** in this framework, as it adaptively reduces position size during periods of uncertainty and early noise
-
-- Fixed sizing incurs larger drawdowns in weak-edge environments, since it maintains constant exposure regardless of signal strength or confidence
-
-- The advantage of fractional Kelly increases with signal-to-noise ratio: as the true edge strengthens, posterior estimates stabilise faster, allowing Kelly to scale exposure more effectively
-
-- Fractional Kelly acts as an implicit risk control mechanism, avoiding overbetting when edge estimates are noisy and increasing exposure only when sufficient evidence is accumulated
-
-- Overall, the trade-off is between:
-  - **Adaptive growth (fractional Kelly)**: higher efficiency when signal is reliable  
-  - **Robust simplicity (fixed sizing)**: stable but less responsive to changing confidence
-
 ### Beta Distribution (D4)
+
+In this framework, the unknown probability of success p is treated as a random variable:
+
+p \sim \text{Beta}(\alpha, \beta)
+
+where:
+	•	\alpha represents evidence in favour of successful outcomes
+	•	\beta represents evidence in favour of unsuccessful outcomes
+
+Starting from a prior belief of Beta(2,2), the model updates sequentially after each observation:
+	•	Heads \rightarrow \alpha + 1
+	•	Tails \rightarrow \beta + 1
+
+This gives a simple and interpretable Bayesian learning rule, where the posterior mean is:
+
+\hat{p} = \frac{\alpha}{\alpha + \beta}
+
+This posterior mean is then used to guide trading decisions and, later, position sizing.
 
 ### Regime Change (D5)
 
