@@ -44,8 +44,8 @@ For true_p = 0.8, edge is strong, hence the beta distribution quickly concentrat
 ![Beta Evolution](figres/beta_evolution.png)
 
 This is useful because trading decisions should depend not only on the estimated edge, but also on how certain the model is that the edge is favourable. I use the posterior distribution to calculate:
-    • the probability that the edge is bad (p <= 0.5)
-    • the probability that the edge is good (p > 0.5)
+    - the probability that the edge is bad (p <= 0.5)
+    - the probability that the edge is good (p > 0.5)
 
 These probabilities are then used for stopping and detection rules.
 
