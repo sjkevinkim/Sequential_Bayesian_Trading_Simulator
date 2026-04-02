@@ -141,32 +141,52 @@ In a non-stationary environment, the key challenge is not just estimating the ed
 To study this, I compare two approaches:
 
 - **Bayesian estimator**  
-  - Uses full history of observations  
-  - Produces stable estimates  
+  - Uses full history of observations, producing stable estimates  
   - Slow to adapt after regime change  
 
 - **Rolling-window estimator**  
-  - Uses only recent observations  
-  - Responds quickly to new information  
-  - More sensitive to noise  
+  - Uses only recent observations 
+  - Responds quickly to new information, hence is more sensitive to noise  
 
 ### Model Setup
 
-- True probability shifts from **0.8 → 0.45 at step 50**
+- True probability shifts from **0.8 to 0.45 at step 50**
 - Bayesian estimate: posterior mean of Beta distribution  
 - Rolling estimate: average of last 20 outcomes  
 - Both estimates are used for **Half-Kelly position sizing**
 
 ### Visualisations
 
-### Plot 5: Wealth paths under regime change
-![Wealth paths under regime change](figures/wealth_paths_under_regime_change_2.png)
-
-### Plot 6: Half-Kelly bet fraction
+### Plot 5: Half-Kelly bet fraction
 ![Half-Kelly bet fraction](figures/bet_size_2.png)
+
+Bayesian estimator is slow to react and hence leads to oversized positions
+Rolling estimator reduces position size earlier because it detects the new environment faster
 
 ### Plot 6: Bayesian vs Rolling Estimates of p
 ![Estimates of p](figures/p_estimates_2.png)
+
+- Bayesian estimates exhibit **inertia**, as past observations dominate the posterior  
+- Rolling estimates exhibit **variance**, as they rely on limited recent data 
+
+### Plot 7: Wealth paths under regime change
+![Wealth paths under regime change](figures/wealth_paths_under_regime_change_2.png)
+
+Bayesian estimator experiences large drawdowns due to overbetting
+Rolling estimator limits post-regime losses as it quickly adapts
+
+### Interpretation
+
+This highlights a fundamental problem in trading:
+
+- A model that is **too slow** risks trading aggressively on outdated beliefs  
+- A model that is **too fast** risks overreacting to noise  
+
+Neither approach alone is sufficient in practice:
+- Stability is needed for reliable estimation  
+- Responsiveness is needed for survivability
+
+This motivates the development of **hybrid models**, which combine both signals.
 
 ---
 
