@@ -189,6 +189,7 @@ plt.xlabel("Step")
 plt.ylabel("Probability")
 plt.title("True p vs Posterior Mean")
 plt.legend()
+plt.savefig("figures/true_p_vs_posterior_mean_d2.png")
 plt.show()
 
 # Plot 2: Wealth paths
@@ -200,6 +201,7 @@ plt.xlabel("Step")
 plt.ylabel("Wealth")
 plt.title("Wealth Paths Under Regime Change")
 plt.legend()
+plt.savefig("figures/wealth_paths_under_regime_change_d2.png")
 plt.show()
 
 # Plot 3: Kelly bet fraction over time
@@ -210,6 +212,7 @@ plt.xlabel("Step")
 plt.ylabel("Bet fraction")
 plt.title("Half-Kelly Bet Size Over Time")
 plt.legend()
+plt.savefig("figures/bet_size_d2.png")
 plt.show()
 
 # Basic summary stats
