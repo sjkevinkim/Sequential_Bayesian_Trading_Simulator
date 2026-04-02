@@ -217,18 +217,7 @@ kelly_bets = single_results["kelly_bets"]
 rolling_wealth_history = single_results["rolling_wealth_history"]
 rolling_bets = single_results["rolling_bets"]
 
-# Plot 1: True p vs posterior mean
-plt.figure(figsize=(8, 5))
-plt.plot(true_ps, label="True p")
-plt.plot(bayes_estimates, label="Posterior mean")
-plt.axvline(50, linestyle="--", label="Regime change")
-plt.xlabel("Step")
-plt.ylabel("Probability")
-plt.title("True p vs Bayesian Estimate")
-plt.legend()
-plt.show()
-
-# Plot 2: Wealth paths
+# Plot 1: Wealth paths
 plt.figure(figsize=(8, 5))
 plt.plot(fixed_wealth_history, label="Fixed sizing wealth")
 plt.plot(kelly_wealth_history, label="Bayesian Half-Kelly wealth")
@@ -238,9 +227,10 @@ plt.xlabel("Step")
 plt.ylabel("Wealth")
 plt.title("Wealth Paths Under Regime Change")
 plt.legend()
+plt.savefig("figures/wealth_paths_under_regime_change_2.png")
 plt.show()
 
-# Plot 3: Kelly bet fraction over time
+# Plot 2: Kelly bet fraction over time
 plt.figure(figsize=(8, 5))
 plt.plot(kelly_bets, label="Bayesian Half-Kelly bet fraction")
 plt.plot(rolling_bets, label="Rolling Half-Kelly bet fraction")
@@ -249,6 +239,7 @@ plt.xlabel("Step")
 plt.ylabel("Bet fraction")
 plt.title("Half-Kelly Bet Size Over Time")
 plt.legend()
+plt.savefig("figures/bet_size_2.png")
 plt.show()
 
 # Basic summary stats
@@ -343,6 +334,8 @@ print("Average Rolling max drawdown: ", np.mean(many_results["rolling_drawdown"]
 # 10. Adaptation (Bayesian vs Rolling Estimate) Plot
 # ---------------------------
 
+# Plot 3
+
 plt.figure(figsize=(8,5))
 plt.plot(bayes_estimates, label = "Bayesian")
 plt.plot(recent_estimates, label = "Rolling")
@@ -352,4 +345,5 @@ plt.xlabel("Step")
 plt.ylabel("Probability")
 plt.title("Bayesian vs Rolling Estimates of p")
 plt.legend()
+plt.savefig("figures/p_estimates_2.png")
 plt.show()

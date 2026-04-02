@@ -30,7 +30,7 @@ Finally, I incorporate a regime detection mechanism, where divergence between mo
 
 ## Beta Distribution (D1)
 
-To move from a discrete belief model to a more realistic continuous framework, I model the unknown edge p using a Beta distribution (p ~ B(alpha, beta)):
+To move from a discrete belief model to a more realistic continuous framework, I model the unknown edge p using a **Beta distribution** (p ~ B(alpha, beta)):
 
 Starting from a prior of Beta(2,2), beliefs are updated sequentially after each outcome:
 
@@ -90,8 +90,10 @@ Because the Bayesian estimate uses all past observations, it is slow to adapt af
 
 As a result, the trader may continue sizing too aggressively even after the edge has disappeared (overconfidence)
 
+### Visualisations
+
 ### Plot 2: True edge vs Posterior mean
-![True edge vs posterior mean](figures/true_p_vs_posterior_mean_d2.png)
+![True edge vs posterior mean](figures/true_p_vs_posterior_mean_1.png)
 
 This plot compares the true probability with the Bayesian posterior mean over time.
 - Before step 50, the posterior mean converges upward toward the strong positive edge
@@ -100,14 +102,14 @@ This plot compares the true probability with the Bayesian posterior mean over ti
 **This visualises the central problem of adaptation lag**
 
 ### Plot 3: Wealth paths under regime change
-![Wealth paths under regime change](figures/wealth_paths_under_regime_change_d2.png)
+![Wealth paths under regime change](figures/wealth_paths_under_regime_change_1.png)
 
 This plot compares how fixed and Half-Kelly strategies perform under the same regime shift.
 - Fixed sizing grows more slowly but avoids extreme overexposure as betting size does not drastically change
 - Half-Kelly compounds rapidly in the favourable regime. But after the shift, Half-Kelly often experiences a sharp deterioration because it is still betting based on stale confidence
 
 ### Plot 4: Half-Kelly bet fraction
-![Half-Kelly bet fraction](figures/bet_size_d2.png)
+![Half-Kelly bet fraction](figures/bet_size_1.png)
 
 This plot shows how the Kelly position size evolves over time.
 - In a high-edge regime, bet sizes increase as the posterior mean rises 
@@ -130,10 +132,41 @@ This plot shows how the Kelly position size evolves over time.
 **Regime change introduces model risk**
 - The strategy is no longer just uncertain about the value of the edge, it is uncertain whether the underlying process itself has changed
 
+---
+
 ## Adaptation (D3)
 
+In a non-stationary environment, the key challenge is not just estimating the edge, but **adapting quickly when the edge changes**.
 
+To study this, I compare two approaches:
 
+- **Bayesian estimator**  
+  - Uses full history of observations  
+  - Produces stable estimates  
+  - Slow to adapt after regime change  
+
+- **Rolling-window estimator**  
+  - Uses only recent observations  
+  - Responds quickly to new information  
+  - More sensitive to noise  
+
+### Model Setup
+
+- True probability shifts from **0.8 → 0.45 at step 50**
+- Bayesian estimate: posterior mean of Beta distribution  
+- Rolling estimate: average of last 20 outcomes  
+- Both estimates are used for **Half-Kelly position sizing**
+
+### Visualisations
+
+### Plot 5: Wealth paths under regime change
+![Wealth paths under regime change](figures/wealth_paths_under_regime_change_2.png)
+
+### Plot 6: Half-Kelly bet fraction
+![Half-Kelly bet fraction](figures/bet_size_2.png)
+
+### Plot 6: Bayesian vs Rolling Estimates of p
+![Estimates of p](figures/p_estimates_2.png)
 
 ---
 
