@@ -117,12 +117,16 @@ This plot shows how the Kelly position size evolves over time.
 
 **Confidence is helpful only while the environment remains stable**
 - In a stationary setting, Bayesian learning improves sizing. In a changing setting, old information can become a liability.
+
 **The main problem is not estimation alone, but adaptation speed**
 - A model can remain statistically “reasonable” while still reacting too slowly to structural change
+
 **Kelly sizing amplifies model error**
 - Because position size increases with estimated edge, an outdated belief can produce large losses after a regime shift
+
 **Fixed sizing sacrifices upside for robustness**
 - It does not exploit the strong regime as efficiently, but it avoids the most severe overbetting problem
+
 **Regime change introduces model risk**
 - The strategy is no longer just uncertain about the value of the edge, it is uncertain whether the underlying process itself has changed
 
