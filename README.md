@@ -7,7 +7,6 @@ This project investigates how a trader should learn and size positions to manage
 To study this in a controlled setting, I begin with a simulation framework based on repeated coin flips. Each flip represents a trade, where outcomes (“Heads” or “Tails”) correspond to profit and loss signals. The true probability of success is unknown and must be inferred from sequential observations.
 
 Using **Monte Carlo simulation**, I run many independent paths to evaluate strategy performance in terms of:
-
     • wealth growth
     • drawdowns
     • robustness across different scenarios
