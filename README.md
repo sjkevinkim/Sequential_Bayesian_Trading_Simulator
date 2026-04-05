@@ -204,15 +204,7 @@ p_combined = w * recent_p + (1 - w) * p_hat
 for some w between 0 and 1, where w controls the trade-off between responsiveness and stability.
 'recent_p' and 'p_hat' represents the Rolling estimate, Bayesian estimate respectively.
 
-### Model Setup
-
-- True probability shifts from **0.8 → 0.45 at step 50**
-- Bayesian estimate: posterior mean of Beta distribution  
-- Rolling estimate: average of recent outcomes (window = 20)  
-- Hybrid estimate: weighted combination of both 
-- Position sizing: **Half-Kelly based on each estimate**
-
-Below are previous plots with the addition of the hybrid model, where we have initially chosen w=0.5
+Below are the previous plots with the addition of the hybrid model, with w initially chosen as 0.5.
 
 ### Plot 8: Bet fractions over time
 
@@ -248,18 +240,15 @@ The parameter w determines how much the model trusts recent data:
 - Faster adaptation  
 - More sensitive to noise  
 
-This creates a **tunable balance between bias and variance**, allowing the model to adapt to different environments.
+This creates a tunable balance between bias and variance, allowing the model to adapt to different environments.
 
 ### Interpretation
 
 The hybrid model reflects a key principle in trading:
-
 - No single signal is reliable on its own  
 - Combining signals can improve robustness  
 
-The hybrid estimator acts as a **risk-aware compromise**, allowing the strategy to:
-- respond to new information  
-- while avoiding overreaction to short-term noise  
+The hybrid estimator acts as a risk-aware compromise, allowing the strategy to respond to new information but avoid overreacting to short-term noise.
 
 ---
 
