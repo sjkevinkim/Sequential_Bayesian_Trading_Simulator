@@ -315,8 +315,8 @@ Detection typically happens **around the regime change (~step 44–50)**
 
 ### Interpretation
 
-Model disagreement acts as a **proxy for uncertainty**, hence the system reduces exposure when confidence breaks down  
-This improves **survivability under regime shifts**
+Model disagreement acts as a **proxy for uncertainty**, hence the system reduces exposure when confidence breaks down.  
+This improves **survivability under regime shifts**.
 
 However:
 - detection and choice of threshold is imperfect (noise vs signal problem)  
