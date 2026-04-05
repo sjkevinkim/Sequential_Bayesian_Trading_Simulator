@@ -340,6 +340,51 @@ A robust trading system must combine adaptation and risk control
 
 ## Limitations
 
+While this framework captures key ideas around learning, adaptation, and risk control, it remains a highly simplified model of trading.
+
+**Simplified environment**
+- The simulation is based on coin flips with a changing probability of success
+- This is useful for isolating learning and position sizing, but real markets contain serial dependence, clustering, changing volatility, and multiple interacting drivers
+
+**Single-asset framework**
+- The strategy operates on one stream of trades only
+- In practice, trading decisions are made in a portfolio setting where diversification, correlation, and capital allocation matter
+
+**No transaction costs or execution frictions**
+- The model assumes zero costs, no slippage, and perfect execution
+- In real trading, these can materially reduce profitability, especially for adaptive strategies that change size frequently
+
+**Simplified regime change**
+- The regime shift is abrupt and clean (0.8 to 0.45 at step 50)
+- Real regime changes are often gradual, noisy, and difficult to separate from short-term randomness
+
+**Detection is imperfect**
+- Divergence between rolling and Bayesian estimates can arise from both genuine regime changes and noise
+- As a result, the control system can trigger too early or too late depending on the threshold and the recent window length
+
+**Parameter sensitivity**
+- Results depend on choices such as:
+  - rolling window length
+  - hybrid weight `w`
+  - divergence threshold
+  - control strength
+- Different environments may require different parameter settings, so conclusions should not be treated as universal
+
+**Model risk remains**
+- Even with Bayesian learning, hybrid estimation, and control rules, the framework still relies on assumptions about how outcomes are generated
+- If those assumptions fail, performance can deteriorate significantly
+
+### Takeaway
+
+This project is best viewed as a controlled framework for building intuition about:
+- sequential learning
+- adaptive position sizing
+- regime change
+- model risk
+- survivability under uncertainty
+
+rather than as a production-ready trading strategy.
+
 ---
 
 ## Tech Stack
