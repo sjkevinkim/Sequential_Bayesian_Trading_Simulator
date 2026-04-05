@@ -70,10 +70,10 @@ The purpose of this experiment is to study a central trading problem: a model ma
 
 I compare two sizing rules:
 
-- **Fixed fraction sizing**
-    - A constant 5% of wealth is allocated each round, regardless of confidence.
-- **Half-Kelly sizing**
-    - Position size is determined by the Bayesian posterior estimate of the edge: f = max(0, 0.5 * (2 * expected p - 1))
+**Fixed fraction sizing**
+- A constant 5% of wealth is allocated each round, regardless of confidence.
+**Half-Kelly sizing**
+- Position size is determined by the Bayesian posterior estimate of the edge: f = max(0, 0.5 * (2 * expected p - 1))
 
 This means the Half-Kelly strategy becomes more aggressive as the model grows more confident.
 
@@ -140,13 +140,13 @@ In a non-stationary environment, the key challenge is not just estimating the ed
 
 To study this, I compare two approaches:
 
-- **Bayesian estimator**  
-  - Uses full history of observations, producing stable estimates  
-  - Slow to adapt after regime change  
+**Bayesian estimator**  
+- Uses full history of observations, producing stable estimates  
+- Slow to adapt after regime change  
 
-- **Rolling-window estimator**  
-  - Uses only recent observations 
-  - Responds quickly to new information, hence is more sensitive to noise  
+**Rolling-window estimator**  
+- Uses only recent observations 
+- Responds quickly to new information, hence is more sensitive to noise  
 
 ### Model Setup
 
@@ -218,6 +218,12 @@ Below are previous plots with the addition of the hybrid model, where we have in
 
 ![Bet fractions over time](figures/bet_size_3.png)
 
+The hybrid model **captures early growth** from the rolling estimator  
+- It increases position size faster than the Bayesian model in strong-edge environments  
+
+At the same time, it retains **stability from the Bayesian estimator**  
+- It avoids the extreme overreaction seen in pure rolling strategies  
+
 ### Plot 9: Estimates of true_p under regime change
 
 ![Estimates of p](figures/p_estimates_3.png)
@@ -226,29 +232,21 @@ Below are previous plots with the addition of the hybrid model, where we have in
 
 ![Wealth paths under regime change](figures/wealth_paths_under_regime_change_3.png)
 
-### Key Observations
-
-- The hybrid model **captures early growth** from the rolling estimator  
-  - It increases position size faster than the Bayesian model in strong-edge environments  
-
-- At the same time, it retains **stability from the Bayesian estimator**  
-  - It avoids the extreme overreaction seen in pure rolling strategies  
-
-- The hybrid strategy produces:
-  - Higher wealth than Bayesian alone  
-  - Lower drawdowns than rolling alone  
+The hybrid strategy produces:
+- Higher wealth than Bayesian alone  
+- Lower drawdowns than rolling alone  
 
 ### Role of the Weight Parameter (w)
 
 The parameter w determines how much the model trusts recent data:
 
-- **Low w (closer to Bayesian):**
-  - More stable  
-  - Slower to adapt  
+**Low w (closer to Bayesian):**
+- More stable  
+- Slower to adapt  
 
-- **High w (closer to rolling):**
-  - Faster adaptation  
-  - More sensitive to noise  
+**High w (closer to rolling):**
+- Faster adaptation  
+- More sensitive to noise  
 
 This creates a **tunable balance between bias and variance**, allowing the model to adapt to different environments.
 
