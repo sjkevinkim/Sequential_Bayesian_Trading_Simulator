@@ -265,7 +265,8 @@ divergence = abs(rolling_estimate - bayesian_estimate)
 If divergence exceeds a threshold:
 
 Reduce hybrid bet size:
-hybrid control bet fraction = control × hybrid bet
+
+'hybrid control bet fraction = control × hybrid bet'
 
 where control is a constant between 0 and 1 for reducing bet size when divergence exists.
 
@@ -279,28 +280,31 @@ This creates two strategies:
 ### Key Results
 
 Detection rate: 1.0
+
 Average detection time: 45.31333333333333
 
 Results for control = 0.25:
-Average Hybrid with control wealth at final step: 617512.4833321453
-Average Hybrid with control max drawdown: 0.7850565943758487
-Average Hybrid without control wealth at final step: 437944.4831261356
-Average Hybrid without control max drawdown: 0.8625575022131845
+- Average Hybrid with control wealth at final step: 617512.4833321453
+- Average Hybrid with control max drawdown: 0.7850565943758487
+- Average Hybrid without control wealth at final step: 437944.4831261356
+- Average Hybrid without control max drawdown: 0.8625575022131845
 
 Results for control = 0.5:
-Average Hybrid with control wealth at final step: 802274.1296224612
-Average Hybrid with control max drawdown: 0.8086853552237591
-Average Hybrid without control wealth at final step: 860681.6237110675
-Average Hybrid without control max drawdown: 0.8603972455591635
+- Average Hybrid with control wealth at final step: 802274.1296224612
+- Average Hybrid with control max drawdown: 0.8086853552237591
+- Average Hybrid without control wealth at final step: 860681.6237110675
+- Average Hybrid without control max drawdown: 0.8603972455591635
 
 Results for control = 0.75:
-Average Hybrid with control wealth at final step: 139366.76864022086
-Average Hybrid with control max drawdown: 0.8302205712559817
-Average Hybrid without control wealth at final step: 122667.01659935107
-Average Hybrid without control max drawdown: 0.8552210415989587
+- Average Hybrid with control wealth at final step: 139366.76864022086
+- Average Hybrid with control max drawdown: 0.8302205712559817
+- Average Hybrid without control wealth at final step: 122667.01659935107
+- Average Hybrid without control max drawdown: 0.8552210415989587
 
 Hybrid with control reduces drawdowns compared to standard hybrid  
+
 Detection occurs consistently (detection rate ≈ 1.0)  
+
 Detection typically happens **around the regime change (~step 44–50)**  
 
 **Lower control (e.g. 0.25)**  
@@ -325,12 +329,12 @@ However:
 ### Key Insights
 
 Regime change detection can be based on model divergence
+
 Position sizing is the main tool for managing **model risk**
+
 Risk control improves stability without fully sacrificing returns
-A robust trading system must combine:
-- estimation  
-- adaptation  
-- risk control  
+
+A robust trading system must combine adaptation and risk control
 
 ---
 
